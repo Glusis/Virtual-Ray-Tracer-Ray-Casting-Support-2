@@ -60,7 +60,7 @@ namespace _Project.UI.Scripts.Main_Menu
 
         private void OnButtonClicked(Button clickedButton)
         {
-            // Hide main menu and loat the scene
+            // Hide main menu and load the scene
             mainMenu.Toggle();
             SceneLoader.Get().LoadScene(int.Parse(clickedButton.name));
         }

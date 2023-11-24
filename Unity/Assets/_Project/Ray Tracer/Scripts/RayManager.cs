@@ -32,7 +32,7 @@ namespace _Project.Ray_Tracer.Scripts
         }
 
         [SerializeField, Range(0.00f, 1.00f)]
-        private float rayHideThreshold = 0.02f;
+        protected float rayHideThreshold = 0.02f;
         /// <summary>
         /// The draw threshold of the rays this ray manager draws.
         /// </summary>
@@ -240,7 +240,7 @@ namespace _Project.Ray_Tracer.Scripts
         [SerializeField] private Material lightMaterial;
         [SerializeField] private Material lightMaterialTransparent;
         [SerializeField] private Material colorRayMaterial;
-        [SerializeField] private Material colorRayMaterialTransparent;
+        [SerializeField] protected Material colorRayMaterialTransparent;
         [SerializeField] private Material errorMaterial;
 
         [Header("Animation Settings")]
@@ -263,7 +263,7 @@ namespace _Project.Ray_Tracer.Scripts
         }
 
         [SerializeField]
-        private bool animateSequentially = false;
+        protected bool animateSequentially = false;
         /// <summary>
         /// Whether this ray manager animates the rays sequentially. Does nothing if <see cref="Animate"/> is not set.
         /// </summary>
@@ -314,19 +314,19 @@ namespace _Project.Ray_Tracer.Scripts
 
         private static RayManager instance = null;
 
-        private List<TreeNode<RTRay>> rays;
-        private RayObjectPool rayObjectPool;
+        public List<TreeNode<RTRay>> rays;
+        protected RayObjectPool rayObjectPool;
 
-        private TreeNode<RTRay> selectedRay;
-        private Vector2Int selectedRayCoordinates;
-        private bool hasSelectedRay = false;
+        public  TreeNode<RTRay> selectedRay;
+        public Vector2Int selectedRayCoordinates;
+        public bool hasSelectedRay = false;
 
-        private RTSceneManager rtSceneManager;
+        protected RTSceneManager rtSceneManager;
         private UnityRayTracer rayTracer;
         
-        private float distanceToDraw = 0.0f;
-        private int rayTreeToDraw = 0; // Used when animating sequentially.
-        private bool animationDone = false;
+        protected float distanceToDraw = 0.0f;
+        protected int rayTreeToDraw = 0; // Used when animating sequentially.
+        protected bool animationDone = false;
 
         //private bool shouldUpdateRays = true;
 
@@ -374,7 +374,7 @@ namespace _Project.Ray_Tracer.Scripts
         /// <returns>
         /// The <see cref="Material"/> for <paramref name="contribution"/>, <paramref name="type"/> and <paramref name="color"/>.
         /// </returns>
-        public Material GetRayMaterial(float contribution, RTRay.RayType type, Color color, bool areaLight)
+        public virtual Material GetRayMaterial(float contribution, RTRay.RayType type, Color color, bool areaLight)
         {
             if (RayTransparencyEnabled || areaLight)
             {
@@ -514,12 +514,12 @@ namespace _Project.Ray_Tracer.Scripts
             Reset = true;
         }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             instance = this;
         }
 
-        private void Start()
+        protected virtual void Start()
         {
             rays = new List<TreeNode<RTRay>>();
 
@@ -534,7 +534,7 @@ namespace _Project.Ray_Tracer.Scripts
             UpdateRays();   // This is needed for level-changes.
         }
 
-        private bool redraw = true;
+        protected bool redraw = true;
 
         private void FixedUpdate()
         {
@@ -545,14 +545,11 @@ namespace _Project.Ray_Tracer.Scripts
             }
         }
 
-        private void Redraw()
+        protected virtual void Redraw()
         {
             // Determine the selected ray.
             if (hasSelectedRay)
             {
-                int width = rtSceneManager.Scene.Camera.ScreenWidth;
-                int index = selectedRayCoordinates.x + width * selectedRayCoordinates.y;
-                selectedRay = rays[index];
                 rayObjectPool.DeactivateAll();
             }
 
@@ -565,7 +562,7 @@ namespace _Project.Ray_Tracer.Scripts
         /// <summary>
         /// Get new ray trees from the ray tracer.
         /// </summary>
-        public void UpdateRays()
+        public virtual void UpdateRays()
         {
             rays = rayTracer.Render();
             rayObjectPool.MakeRayObjects(rays);
@@ -578,7 +575,7 @@ namespace _Project.Ray_Tracer.Scripts
         /// </summary>
         /// <param name="rayTree">ray to get radius from</param>
         /// <returns></returns>
-        private float GetRayRadius(TreeNode<RTRay> rayTree)
+        protected virtual float GetRayRadius(TreeNode<RTRay> rayTree)
         {
             if (RayDynamicRadiusEnabled)
                 return RayMinRadius + rayTree.Data.Contribution * (RayMaxRadius - RayMinRadius);
@@ -589,12 +586,17 @@ namespace _Project.Ray_Tracer.Scripts
         /// <summary>
         /// Draw <see cref="rays"/> in full.
         /// </summary>
-        private void DrawRays()
+        protected virtual void DrawRays()
         {
             // If we have selected a ray we only draw its ray tree.
             if (hasSelectedRay)
+            {
+                int width = rtSceneManager.Scene.Camera.ScreenWidth;
+                int index = selectedRayCoordinates.x + width * selectedRayCoordinates.y;
+                selectedRay = rays[index];
                 foreach (var ray in selectedRay.Children) // Skip the zero-length base-ray 
                     DrawRayTree(ray);
+            }
             // Otherwise we draw all ray trees.
             else
                 foreach (var pixel in rays)
@@ -602,7 +604,7 @@ namespace _Project.Ray_Tracer.Scripts
                         DrawRayTree(ray);
         }
 
-        private void DrawRayTree(TreeNode<RTRay> rayTree)
+        protected void DrawRayTree(TreeNode<RTRay> rayTree)
         {
             if ((HideNoHitRays && rayTree.Data.Type == RTRay.RayType.NoHit) ||
                 (HideNegligibleRays && rayTree.Data.Contribution <= rayHideThreshold))
@@ -622,7 +624,7 @@ namespace _Project.Ray_Tracer.Scripts
         /// <summary>
         /// Draw a part of <see cref="rays"/> up to <see cref="distanceToDraw"/>. The part drawn grows each frame.
         /// </summary>
-        private void DrawRaysAnimated()
+        protected virtual void DrawRaysAnimated()
         {
             // Reset the animation if we are looping or if a reset was requested.
             if ((animationDone && Loop) || Reset)
@@ -643,6 +645,9 @@ namespace _Project.Ray_Tracer.Scripts
                 // If we have selected a ray we only draw its ray tree.
                 if (hasSelectedRay)
                 {
+                    int width = rtSceneManager.Scene.Camera.ScreenWidth;
+                    int index = selectedRayCoordinates.x + width * selectedRayCoordinates.y;
+                    selectedRay = rays[index];
                     foreach (var ray in selectedRay.Children) // Skip the zero-length base-ray 
                         animationDone &= DrawRayTreeAnimated(ray, distanceToDraw);
                 }
@@ -680,7 +685,7 @@ namespace _Project.Ray_Tracer.Scripts
                 DrawRays();
         }
 
-        private bool DrawRayTreeAnimated(TreeNode<RTRay> rayTree, float distance)
+        protected virtual bool DrawRayTreeAnimated(TreeNode<RTRay> rayTree, float distance)
         {
             if ((HideNoHitRays && rayTree.Data.Type == RTRay.RayType.NoHit) ||
                 (HideNegligibleRays && rayTree.Data.Contribution < rayHideThreshold))

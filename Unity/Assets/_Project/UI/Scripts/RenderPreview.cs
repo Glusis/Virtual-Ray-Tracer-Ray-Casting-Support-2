@@ -128,7 +128,7 @@ namespace _Project.UI.Scripts
                 ExpandCollapse();
         }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             expandCollapseButton.onClick.AddListener(ExpandCollapse);
         }

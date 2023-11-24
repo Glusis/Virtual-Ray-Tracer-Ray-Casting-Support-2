@@ -21,7 +21,7 @@ namespace _Project.UI.Scripts.Control_Panel
             Object
         }
 
-        public void Subscribe(Action<SignalType> function)
+        public virtual void Subscribe(Action<SignalType> function)
         {
             rayTracerButton.onClick.AddListener(() => function(SignalType.RayTracer));
             cameraButton.onClick.AddListener(() => function(SignalType.Camera));

@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SceneLoader : MonoBehaviour
 {
@@ -29,11 +31,12 @@ public class SceneLoader : MonoBehaviour
 
     IEnumerator LoadSceneInternal(int index)
     {
+        // We check if there is a loading panel for a loading bar
         transition.SetTrigger("Start");
         yield return new WaitForSeconds(transitionTime);
         SceneManager.LoadSceneAsync(index);
     }
-
+    
     private void Awake()
     {
         instance = this;

@@ -99,7 +99,7 @@ namespace _Project.Ray_Tracer.Scripts
 
         }
 
-        private void AccelerationPrep()
+        protected void AccelerationPrep()
         {
             if (mode != TraceMode.Normal)
             {
@@ -109,7 +109,7 @@ namespace _Project.Ray_Tracer.Scripts
             }
         }
 
-        private void AccelerationCleanupTree()
+        protected void AccelerationCleanupTree()
         {
             // TODO this should be data not strings 
             if (mode == TraceMode.Octree)

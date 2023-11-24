@@ -1057,6 +1057,135 @@ MonoBehaviour:
         to move onto the sandbox level or do some more exploring.
       skippable: 0
       points: 0
+  - optionalTasksStart: 16
+    tasks:
+    - identifier: 
+      name: Ray Casting Introduction
+      description: 'Welcome to the Ray Casting level of the Virtual Ray Tracer! This
+        level is dedicated to the art of visualizing 3D scalar data. Simply follow
+        this tutorial to learn how ray casting works and how to use this tool.
+
+'
+      skippable: 1
+      points: 0
+    - identifier: 
+      name: Rendering images
+      description: If you are new to the Virtual Ray Tracer it will be good to know
+        that you can render a high resolution image of your scene. You can do this
+        by going to the "Ray Caster" tab on the right and scrolling to the bottom.
+        There will be the "Render Image" button.
+      skippable: 1
+      points: 0
+    - identifier: 
+      name: Voxel Grids
+      description: For ray casting to work we first need a 3D volume with scalar
+        data (a scalar is a single number). These scalar values usually represent
+        densities. We represent this data as a 3D grid with x, y and z axis where
+        every position is a number between 0 and 1. This reprensentation is called
+        a Voxel Grid.
+      skippable: 1
+      points: 0
+    - identifier: selectVoxelGrid
+      name: Selecting a Voxel Grid
+      description: We have a couple pre-made voxel grids for you. You can pick which
+        one you want to visualize on the right. We have bucky, bunny, engine, and
+        hazelnut. Curently bucky is selected. Try changing it to something else using
+        the dropdown menu on the right under the "Ray Caster" tab.
+      skippable: 0
+      points: 0
+    - identifier: 
+      name: Getting a sample
+      description: Now that we have our voxel grid we can shoot a ray through it.
+        This ray will collect samples as it passes through the grid. Usually these
+        samples do not land exactly on a single voxel. Instead we take the 8 voxels
+        close to it, forming a cube around the sample. We use trilinear interpolation
+        to get the value of our sample.
+      skippable: 1
+      points: 0
+    - identifier: changeSampleDistance
+      name: Edit sample distance
+      description: The amount of samples a single ray takes can be changed. This
+        is done by editing the distance between these samples with the slider on
+        the right. Try editing the distance between samples. Note that very low values
+        might make your computer slow!
+      skippable: 0
+      points: 0
+    - identifier: changeDensity
+      name: Setting the Color Lookup Table 1
+      description: The samples collected along our ray need to be translated to a
+        color. This is done using the Transfer function. We take the 2 densities
+        below and above our sample from the transfer table.  To do this efficiently
+        all densities in the transfer function must be in ascending order. Try editing
+        a density.
+      skippable: 0
+      points: 0
+    - identifier: changeColor
+      name: Setting the Color Lookup Table 2
+      description: Using the 2 densities from the transfer table we use linear interpolation
+        on their corresponding colors. Each color also has an alpha value. This dictates
+        how visible this color will be in the final image. Try changing one of the
+        colors in the Color Lookup Table.
+      skippable: 0
+      points: 0
+    - identifier: 
+      name: Compositing Methods
+      description: 'All these samples'' colors colected along the ray need to be
+        composited to create the final pixel color. There are 4 implemented compositing
+        methods: Accumulate, Average, Maximum, and First. We will briefly explain
+        each method'
+      skippable: 1
+      points: 0
+    - identifier: 
+      name: 'Compositing Methods: Accumulate'
+      description: Accumulate adds up all sample colors. It also accumulates their
+        opacity. When the accumulated opacity is more than the alpha cutoff value
+        calculations are stopped. Note that when you change the sample distance the
+        total opacity will also change. update the alpha value in your transfer function
+        to correct for this.
+      skippable: 1
+      points: 0
+    - identifier: 
+      name: 'Compositing Methods: Average'
+      description: Average takes the average of all the sample colors. It also takes
+        the average opacity. So when you swich from accumulate to average you might
+        want to change the alpha values in your transfer function to see more.
+      skippable: 1
+      points: 0
+    - identifier: 
+      name: 'Compositing Methods: Maximum'
+      description: Maximum remembers the sample color with the highest alpha value
+        and display this as its final pixel value.
+      skippable: 1
+      points: 0
+    - identifier: 
+      name: 'Compositing Methods: First'
+      description: First goes through the sample color untill one has an alpha value
+        above the alpha cutoff value. As soon as it finds one sample above this cutoff
+        it displays it as its final pixel color. This will give you the iso surface.
+      skippable: 1
+      points: 0
+    - identifier: changeComp
+      name: Setting the Compositing Method
+      description: 'Try changing the compositing method. '
+      skippable: 0
+      points: 0
+    - identifier: selectRay
+      name: Ray Calculation
+      description: If you select a specific ray you can see how the samples along
+        the ray are used to calculate the final color. You will see the formulas
+        of the compositing method and a sample by sample table of the composited
+        color. Select a ray and view its calculations by clicking on a pixel in the
+        Render Preview window.
+      skippable: 0
+      points: 0
+    - identifier: 
+      name: 
+      description: Now that you understand the Ray Caster have some fun playing around
+        and explore how ray casting works! There are a couple more settings on the
+        right that were not highlighted in this tutorial. You can always hover over
+        any setting to get a little explanation of what it does.
+      skippable: 1
+      points: 0
   - optionalTasksStart: 4
     tasks:
     - identifier: 

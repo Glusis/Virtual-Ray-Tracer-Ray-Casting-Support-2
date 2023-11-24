@@ -14,8 +14,8 @@ namespace _Project.UI.Scripts.Control_Panel
     /// </summary>
     public class RayTracerProperties : MonoBehaviour
     {
-        private UnityRayTracer rayTracer;
-        private RayManager rayManager;
+        protected UnityRayTracer rayTracer;
+        protected RayManager rayManager;
         private UIManager uiManager;
         private RTSceneManager rtSceneManager;
 
@@ -75,15 +75,15 @@ namespace _Project.UI.Scripts.Control_Panel
         [SerializeField]
         private Button openImageButton;
         [SerializeField]
-        private Button flyRoRTCameraButton;
+        protected Button flyRoRTCameraButton;
 
 
         /// <summary>
         /// Show the ray tracer properties for the current <see cref="UnityRayTracer"/> and <see cref="RayManager"/>.
         /// These properties can be changed via the shown UI.
         /// </summary>
-        public void Show()
-        {            
+        public virtual void Show()
+        {
             gameObject.SetActive(true);
             rayTracer = UnityRayTracer.Get();
             rayManager = RayManager.Get();
@@ -153,7 +153,7 @@ namespace _Project.UI.Scripts.Control_Panel
             renderShadowsEdit.OnValueChanged.AddListener((value) => { RTSceneManager.Get().SetShadows(value); });
         }
         
-        private void Awake()
+        protected virtual void Awake()
         {
             renderShadowsEdit.OnValueChanged.AddListener((value) => { rayTracer.RenderShadows = value; });
             enablePointLightsEdit.OnValueChanged.AddListener((value) => { rtSceneManager.Scene.EnablePointLights = value; });

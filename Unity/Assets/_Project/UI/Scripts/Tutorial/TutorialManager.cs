@@ -115,7 +115,9 @@ namespace _Project.UI.Scripts.Tutorial
 
             if (globalManager.CheatMode) return true;
 
-            if (level == SceneManager.sceneCountInBuildSettings - 1) return true;
+            if (level == SceneManager.sceneCountInBuildSettings - 1) return true; // This is the sandbox level
+            
+            if (level == SceneManager.sceneCountInBuildSettings - 2) return true; // This is the ray casting level
 
             // Check whether the tasks of the previous level exist
             if (globalManager.TutorialTasks.Count <= level - 2)

@@ -91,7 +91,7 @@ namespace _Project.Ray_Tracer.Scripts
         }
 
         [SerializeField]
-        private bool superSamplingVisual = false;
+        protected bool superSamplingVisual = false;
         /// <summary>
         /// Whether SS is visualized.
         /// </summary>
@@ -124,14 +124,14 @@ namespace _Project.Ray_Tracer.Scripts
         }
 
         static private UnityRayTracer instance = null;
-        private RTSceneManager rtSceneManager;
+        protected RTSceneManager rtSceneManager;
         private Texture2D image;
         public Texture2D Image { get => image; }
 
-        private RTScene scene;
-        private new RTCamera camera;
+        protected RTScene scene;
+        protected new RTCamera camera;
 
-        private int rayTracerLayer;
+        protected int rayTracerLayer;
 
         /// <summary>
         /// A class that stores the raw mesh data of a collider. This is used to cache a list of recently intersected
@@ -190,7 +190,6 @@ namespace _Project.Ray_Tracer.Scripts
                 InversedNormal = Vector3.Dot(Normal, View) < -0.1f;
                 Normal = InversedNormal ? -Normal : Normal;
             }
-
             private static Vector3 SmoothedNormal(ref RaycastHit hit)
             {
                 // See if we have this mesh cached.
@@ -229,6 +228,12 @@ namespace _Project.Ray_Tracer.Scripts
                 return interpolatedNormal;
             }
         }
+        
+        protected void callRayTracerChanged()
+        {
+            OnRayTracerChanged?.Invoke();
+        }
+
 
         /// <summary>
         /// Get the current <see cref="UnityRayTracer"/> instance.
@@ -326,7 +331,7 @@ namespace _Project.Ray_Tracer.Scripts
             return rayTrees;
         }
 
-        private void SetContributions(TreeNode<RTRay> parent)
+        protected void SetContributions(TreeNode<RTRay> parent)
         {
             parent.Children.ForEach(child =>
             {
@@ -527,8 +532,8 @@ namespace _Project.Ray_Tracer.Scripts
                 }
             }
             
-            Debug.Log("Triangle tests: " + trianglesTests);
-            Debug.Log(Time.realtimeSinceStartup - start);
+            // Debug.Log("Triangle tests: " + trianglesTests);
+            // Debug.Log(Time.realtimeSinceStartup - start);
             
             AccelerationCleanupImage();
 
@@ -537,7 +542,7 @@ namespace _Project.Ray_Tracer.Scripts
             yield return null;
         }
 
-        private Color TraceImage(Vector3 origin, Vector3 direction, int depth)
+        protected virtual Color TraceImage(Vector3 origin, Vector3 direction, int depth)
         {
             // If we did not hit anything we return the background color.
             if (!Physics.Raycast(origin, direction, out RaycastHit hit, Mathf.Infinity, rayTracerLayer))
@@ -646,7 +651,7 @@ namespace _Project.Ray_Tracer.Scripts
             return refraction - normal * Mathf.Sqrt(root);
         }
 
-        private Color ClampColor(Color color)
+        protected Color ClampColor(Color color)
         {
             float r = Mathf.Clamp01(color.r);
             float g = Mathf.Clamp01(color.g);
@@ -659,7 +664,7 @@ namespace _Project.Ray_Tracer.Scripts
             return color.r + color.g + color.b;
         }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             instance = this;
             rayTracerLayer = LayerMask.GetMask("Ray Tracer Objects");

@@ -56,7 +56,7 @@ namespace _Project.UI.Scripts.Control_Panel
             get { return color; }
             set
             {
-                if (color == value) return;
+                //if (color == value) return; TODO: Lukke van der Wal commented this out because when left on, an initial color of (0, 0, 0, 0) will be rendered as (1, 1, 1, 1)
 
                 // Set the color.
                 color = value;
