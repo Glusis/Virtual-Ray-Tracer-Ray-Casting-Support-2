@@ -13,7 +13,7 @@ public class Make3dTex : MonoBehaviour
         CreateTexture3D("/bunny512x512x361.raw","BunnyTex",512,512,361);
         CreateTexture3D("/bucky32x32x32.raw","BuckyTex",32,32,32);
         CreateTexture3D("/engine256x256x256.raw","EngineTex",256,256,256);
-        CreateTexture3D("/hnut256_uint.raw","HnutTex",256,256,256);
+        CreateTexture3D("/hnut256_uint.raw","HazelTex",256,256,256);
     }
 
     
@@ -44,7 +44,7 @@ public class Make3dTex : MonoBehaviour
         texture.Apply();        
 
         // Save the texture
-        AssetDatabase.CreateAsset(texture, "Assets/_Project/Ray Caster/Shaders/" + filename + ".asset");
+        AssetDatabase.CreateAsset(texture, "Assets/_Project/Resources/3DTex/" + filename + ".asset");
     }
 
     private static float[,,] getGridFromFile(string path, int sizeX, int sizeY, int sizeZ)

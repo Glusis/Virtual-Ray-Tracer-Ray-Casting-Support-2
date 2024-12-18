@@ -162,10 +162,10 @@ Shader "Unlit/Raycast"
                 [loop]//prevent unrolling of loop by compiler
                 for (int i = 0; i < stepCount; i++)
                 {
-                    // if(i>=stepsToDepth)//if we've hit another object
-                    // {
-                    //     continue;
-                    // }
+                    if(i>=stepsToDepth)//if we've hit another object
+                    {
+                        continue;
+                    }
                     
                     // Accumulate color only within unit cube bounds
                     if(max(abs(samplePosition.x), max(abs(samplePosition.y), abs(samplePosition.z))) < 1.5f + EPSILON)
