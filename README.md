@@ -9,13 +9,15 @@ Virtual Ray Tracer is a Unity application that visualizes ray tracing. The appli
 
 Virtual Ray Tracer 2.0 comes with several new features. The info panel at the start of each level has been replaced by a task and achievement system. The tasks allow to present the information in smaller chunks and motivate users to explore the levels. The achievements further reward users. Lighting has been expanded: the application now supports area lights, soft shadows, spot lights and distance attenuation. Visualization of axis-aligned bounding boxes and octrees has been added. Besides the new features the application also introduce several settings you can find in the settings panel in each level.
 
-Also new in Virtual ray tracer 2.0 is the possibility to run the application in your [browser](https://wezel.github.io/Virtual-Ray-Tracer) or even on [android devices](https://play.google.com/store/apps/details?id=com.RUG.VirtualRayTracer&hl=en&gl=US&pli=1)(an older version). 
-
 The corresponding theses that let to these features can be found below in the Papers and Theses section.
 
 ## Building the Application
 
-As a prerequisite, you need a [Unity 2021.3.12f1 LTS](https://unity3d.com/unity/qa/lts-releases) release. To build the application, open the `Unity` folder with Unity, navigate to `File > Build Settings`, select your desired platform and press 'build'. The application has been tested on Windows, Linux, Android and WebGL. For more information on building Unity applications see the [Unity Manual page](https://docs.unity3d.com/Manual/BuildSettings.html).
+As a prerequisite, you need a [Unity 2021.3.12f1 LTS](https://unity3d.com/unity/qa/lts-releases) release. 
+
+Before running/building the ray casting level, you first need to generate 3D textures using the CreateVoxelGrid->3DTexture menu button in the editor.
+
+To build the application, open the `Unity` folder with Unity, navigate to `File > Build Settings`, select your desired platform and press 'build'. The application has been tested on Windows. For more information on building Unity applications see the [Unity Manual page](https://docs.unity3d.com/Manual/BuildSettings.html).
 
 ## Implementation
 
