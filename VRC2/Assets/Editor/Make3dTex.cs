@@ -9,14 +9,18 @@ using UnityEngine;
 public class Make3dTex : MonoBehaviour
 {
     [MenuItem("CreateVoxelGrid/3DTexture")]
-    public static void CreateTexture3D()
+    public static void CreateAllTextures(){
+        CreateTexture3D("/bunny512x512x361.raw","BunnyTex",512,512,361);
+        CreateTexture3D("/bucky32x32x32.raw","BuckyTex",32,32,32);
+        CreateTexture3D("/engine256x256x256.raw","EngineTex",256,256,256);
+        CreateTexture3D("/hnut256_uint.raw","HnutTex",256,256,256);
+    }
+
+    
+    public static void CreateTexture3D(String filepath, String filename, int xsize, int ysize, int zsize)
     {
-        // Configure the texture
-        int xsize = 512;
-        int ysize = 512;
-        int zsize = 361;
         //configure file path
-        float[,,] grid = getGridFromFile("/bucky32x32x32.raw",xsize,ysize, zsize);
+        float[,,] grid = getGridFromFile(filepath,xsize,ysize, zsize);
         
         // Create the texture and apply the configuration
         TextureFormat format = TextureFormat.RGBA32;
@@ -40,7 +44,7 @@ public class Make3dTex : MonoBehaviour
         texture.Apply();        
 
         // Save the texture
-        AssetDatabase.CreateAsset(texture, "Assets/_Project/Ray Caster/Shaders/NewTex.asset");
+        AssetDatabase.CreateAsset(texture, "Assets/_Project/Ray Caster/Shaders/" + filename + ".asset");
     }
 
     private static float[,,] getGridFromFile(string path, int sizeX, int sizeY, int sizeZ)
